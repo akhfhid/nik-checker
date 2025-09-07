@@ -52,38 +52,45 @@
       }
     }
 
-    async function randomNik() {
-      // Ambil file data.json langsung
-      const res = await fetch("/data.json");
-      const data = await res.json();
+   async function randomNik() {
+  // 1. load database
+  const res  = await fetch('/data.json');
+  const data = await res.json();
 
-      // Random kecamatan
-      const kecKeys = Object.keys(data.kecamatan);
-      const kecKey = kecKeys[Math.floor(Math.random() * kecKeys.length)];
+  const provKey = '32';                              // bisa diganti 11,12,…,92
+  const provName = data.provinsi[provKey];
+  if (!provName) { alert('Kode provinsi salah'); return; }
 
-      // Provinsi & kabkot dari kode kecamatan
-      const provKey = kecKey.substring(0, 2);
-      const kabkotKey = kecKey.substring(0, 4);
+  const kabKeys = Object.keys(data.kabkot)
+                        .filter(k => k.startsWith(provKey));
+  const kabKey  = kabKeys[Math.floor(Math.random() * kabKeys.length)];
+  const kabName = data.kabkot[kabKey];
+  const kecKeys = Object.keys(data.kecamatan)
+                        .filter(k => k.startsWith(kabKey));
+  const kecKey  = kecKeys[Math.floor(Math.random() * kecKeys.length)];
+  const kecRaw  = data.kecamatan[kecKey];            
+  const [kecName, kodePos] = kecRaw.split(' -- ');
 
-      // Generate tanggal lahir random
-      let day = String(Math.floor(Math.random() * 28) + 1).padStart(2, "0");
-      const month = String(Math.floor(Math.random() * 12) + 1).padStart(2, "0");
-      const year = String(Math.floor(Math.random() * 100)).padStart(2, "0");
+  const dd   = String(Math.floor(Math.random() * 28) + 1).padStart(2,'0'); // 01-28
+  const mm   = String(Math.floor(Math.random() * 12) + 1).padStart(2,'0');
+  const yy   = String(Math.floor(Math.random() * 100)).padStart(2,'0');   // 00-99
 
-      // Random jenis kelamin
-      if (Math.random() < 0.5) {
-        // perempuan → tambahin 40 di tanggal
-        day = String(parseInt(day) + 40).padStart(2, "0");
-      }
+  // (opsional) 50% perempuan → tambah 40
+  const day  = Math.random() < 0.5 ? dd : String(parseInt(dd) + 40).padStart(2,'0');
+  const uniq = String(Math.floor(Math.random() * 10000)).padStart(4,'0');
 
-      // Random uniqcode 4 digit
-      const uniq = String(Math.floor(Math.random() * 9999)).padStart(4, "0");
+  // 6. susun NIK 16 digit
+  const nik = provKey                       // 2 digit
+            + kabKey.substring(2, 4)        // 2 digit
+            + kecKey.substring(4, 6)        // 2 digit
+            + day + mm + yy                 // 6 digit
+            + uniq;                         // 4 digit
 
-      const nik = provKey + kabkotKey.substring(2, 4) + kecKey.substring(4, 6) + day + month + year + uniq;
-
-      document.getElementById("nik").value = nik;
-      cariNIK();
-    }
+  // 7. tampilkan
+  document.getElementById('nik').value     = nik;
+  document.getElementById('kodepos').value = kodePos; 
+  cariNIK();  
+}
   </script>
 </body>
 </html>
