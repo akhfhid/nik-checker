@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cek NIK</title>
+</head>
+<body>
+  <div>
+    <h2>Cek Data NIK</h2>
+    <input type="text" id="nik" placeholder="Masukkan 16 digit NIK" />
+    <button onclick="cariNIK()">Cari</button>
+    <button onclick="randomNik()">Random NIK</button>
+
+    <div id="hasil" style="display:none;"></div>
+  </div>
+
+  <script>
+    async function cariNIK() {
+      const nik = document.getElementById("nik").value.trim();
+      const hasilDiv = document.getElementById("hasil");
+
+      if (nik.length !== 16 || isNaN(nik)) {
+        hasilDiv.style.display = "block";
+        hasilDiv.innerHTML = "<p style='color:red'>NIK tidak valid!</p>";
+        return;
+      }
+
+      try {
+        const res = await fetch(`/nik?nik=${nik}`);
+        const data = await res.json();
+
+        if (res.ok) {
+          hasilDiv.style.display = "block";
+          hasilDiv.innerHTML = `
+            <h3>Hasil Pencarian</h3>
+            <p><strong>Tanggal Lahir:</strong> ${data.tanggal}</p>
+            <p><strong>Jenis Kelamin:</strong> ${data.jenisKelamin}</p>
+            <p><strong>Provinsi:</strong> ${data.provinsi}</p>
+            <p><strong>Kab/Kota:</strong> ${data.kabkot}</p>
+            <p><strong>Kecamatan:</strong> ${data.kecamatan}</p>
+            <p><strong>Kode Pos:</strong> ${data.kodepos}</p>
+            <p><strong>Uniqcode:</strong> ${data.uniqcode}</p>
+          `;
+        } else {
+          hasilDiv.style.display = "block";
+          hasilDiv.innerHTML = `<p style="color:red">${data.message}</p>`;
+        }
+      } catch (err) {
+        hasilDiv.style.display = "block";
+        hasilDiv.innerHTML = "<p style='color:red'>Terjadi kesalahan server.</p>";
+      }
+    }
+
+    async function randomNik() {
+      // Ambil file data.json langsung
+      const res = await fetch("/data.json");
+      const data = await res.json();
+
+      // Random kecamatan
+      const kecKeys = Object.keys(data.kecamatan);
+      const kecKey = kecKeys[Math.floor(Math.random() * kecKeys.length)];
+
+      // Provinsi & kabkot dari kode kecamatan
+      const provKey = kecKey.substring(0, 2);
+      const kabkotKey = kecKey.substring(0, 4);
+
+      // Generate tanggal lahir random
+      let day = String(Math.floor(Math.random() * 28) + 1).padStart(2, "0");
+      const month = String(Math.floor(Math.random() * 12) + 1).padStart(2, "0");
+      const year = String(Math.floor(Math.random() * 100)).padStart(2, "0");
+
+      // Random jenis kelamin
+      if (Math.random() < 0.5) {
+        // perempuan → tambahin 40 di tanggal
+        day = String(parseInt(day) + 40).padStart(2, "0");
+      }
+
+      // Random uniqcode 4 digit
+      const uniq = String(Math.floor(Math.random() * 9999)).padStart(4, "0");
+
+      const nik = provKey + kabkotKey.substring(2, 4) + kecKey.substring(4, 6) + day + month + year + uniq;
+
+      document.getElementById("nik").value = nik;
+      cariNIK();
+    }
+  </script>
+</body>
+</html>

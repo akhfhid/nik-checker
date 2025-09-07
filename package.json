@@ -1,0 +1,15 @@
+{
+  "name": "nik-lookup",
+  "version": "1.0.0",
+  "description": "nik-lookp",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": ""
+  },
+  "author": "affankh",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
