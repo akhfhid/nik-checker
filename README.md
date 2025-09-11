@@ -24,7 +24,7 @@ Backend sederhana untuk memeriksa keabsahan NIK (16 digit) sekaligus mengembalik
    ```
 3. Jalankan server
    ```bash
-   npm start
+   node index.js
    ```
    Server otomatis berjalan di [http://localhost:3000](http://localhost:3000)
 
