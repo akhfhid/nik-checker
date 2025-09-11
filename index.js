@@ -4,8 +4,6 @@ import path from "path";
 
 const app = express();
 const PORT = 3000;
-
-// biar bisa akses file HTML di /public
 app.use(express.static("public"));
 
 // Load data.json
