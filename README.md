@@ -1,10 +1,7 @@
-
-# 🆔 NIK Checker  
-> Validasi & pencarian Nomor Induk Kependudukan dalam satu endpoint.
+NIK Checker  
+Validasi & pencarian Nomor Induk Kependudukan dalam satu endpoint.
 
 Backend sederhana untuk memeriksa keabsahan NIK (16 digit) sekaligus mengembalikan hasilnya dalam format JSON.
-
----
 
 ## ✨ Fitur
 - Validasi panjang & format NIK (harus 16 digit numerik)
@@ -14,7 +11,6 @@ Backend sederhana untuk memeriksa keabsahan NIK (16 digit) sekaligus mengembalik
 
 \* *versi mendatang: ekstraksi wilayah, tanggal lahir, dsb.*
 
----
 
 ## 🚀 Instalasi & Menjalankan Lokal
 1. Clone repo
@@ -32,7 +28,6 @@ Backend sederhana untuk memeriksa keabsahan NIK (16 digit) sekaligus mengembalik
    ```
    Server otomatis berjalan di [http://localhost:3000](http://localhost:3000)
 
----
 
 ## 📌 Contoh Penggunaan
 ### Validasi NIK
@@ -58,8 +53,6 @@ GET /api/cek-nik?nik=3201010101010001
   "message": "NIK tidak valid!"
 }
 ```
-
----
 
 ## 🛠️ Stack Teknologi
 - Node.js
