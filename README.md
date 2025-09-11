@@ -1,4 +1,4 @@
-```markdown
+
 # 🆔 NIK Checker  
 > Validasi & pencarian Nomor Induk Kependudukan dalam satu endpoint.
 
@@ -19,7 +19,7 @@ Backend sederhana untuk memeriksa keabsahan NIK (16 digit) sekaligus mengembalik
 ## 🚀 Instalasi & Menjalankan Lokal
 1. Clone repo
    ```bash
-   git clone https://github.com/username/nik-checker.git
+   git clone https://github.com/akhfhid/nik-checker.git
    cd nik-checker
    ```
 2. Install dependensi
@@ -64,8 +64,6 @@ GET /api/cek-nik?nik=3201010101010001
 ## 🛠️ Stack Teknologi
 - Node.js
 - Express.js
-
----
 
 ## 📄 Lisensi
 MIT License — bebas pakai, modifikasi & sebarluaskan.
